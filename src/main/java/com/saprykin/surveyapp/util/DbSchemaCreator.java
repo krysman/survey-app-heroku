@@ -68,4 +68,37 @@ public class DbSchemaCreator {
         }
     }
 
+    public String readAllUsers(){
+        Connection connection = null;
+        StringBuilder result = new StringBuilder();
+        try {
+            connection = getConnection();
+            logger.info("get connection to database");
+
+            Statement stmt = connection.createStatement();
+
+            if(stmt != null) {
+                ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
+
+                while(resultSet.next()) {
+                    result.append("id: ");
+                    result.append(resultSet.getInt("id"));
+                    result.append(" e-mail: ");
+                    result.append(resultSet.getString("email"));
+                    result.append(" emailConfirmation: ");
+                    result.append(resultSet.getBoolean("emailConfirmation"));
+                    result.append(" emailNotifications: ");
+                    result.append(resultSet.getBoolean("emailNotifications"));
+                    result.append(" confirmationToken: ");
+                    result.append(resultSet.getString("confirmationToken"));
+                    result.append("<br>");
+                }
+            }
+
+        } catch(URISyntaxException | SQLException e) {
+            logger.error("couldn't get connection to database", e);
+        }
+        return result.toString();
+    }
+
 }

@@ -30,8 +30,9 @@ public class App {
         //final String dbTestString = testDb();
 
         get("/", (request, response) -> {
+
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
-            return "<html><head><h1>Hello World!</h1></head><body>" + /*"<h2>" + dbTestString + "</h2>"+ */"<br><h3>" + request.headers().toString() + "</h3></body></html>";
+            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbSchemaCreator.readAllUsers() + "</h2>" + "<br><h3>" + request.headers().toString() + "</h3></body></html>";
         });
     }
 
