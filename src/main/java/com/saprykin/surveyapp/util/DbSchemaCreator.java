@@ -26,7 +26,7 @@ public class DbSchemaCreator {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
-        logger.info("get connection +");
+        logger.info("get connection...SUCCESS!");
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
