@@ -26,6 +26,7 @@ public class DbSchemaCreator {
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
+        logger.info("get connection +");
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
@@ -42,7 +43,7 @@ public class DbSchemaCreator {
                 stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
                 stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
             }
-
+            logger.info("create tables");
         } catch(URISyntaxException | SQLException e) {
             logger.error("couldn't get connection to database", e);
         } finally {
@@ -67,7 +68,7 @@ public class DbSchemaCreator {
                 stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
                 stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
             }
-
+            logger.info("write some data into DB");
         } catch(URISyntaxException | SQLException e) {
 
             logger.error("couldn't get connection to database", e);
@@ -84,8 +85,9 @@ public class DbSchemaCreator {
         Connection connection = null;
         StringBuilder result = new StringBuilder();
         try {
+            logger.info("reading from DB...");
             connection = getConnection();
-            logger.info("get connection to database");
+
 
             Statement stmt = connection.createStatement();
 
@@ -93,8 +95,8 @@ public class DbSchemaCreator {
                 ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
 
                 while(resultSet.next()) {
-                    result.append("id: ");
-                    result.append(resultSet.getInt("id"));
+                    //result.append("id: ");
+                    //result.append(resultSet.getURL("id"));
                     result.append(" e-mail: ");
                     result.append(resultSet.getString("email"));
                     result.append(" emailConfirmation: ");
@@ -108,7 +110,7 @@ public class DbSchemaCreator {
             }
 
         } catch(URISyntaxException | SQLException e) {
-            logger.error("couldn't get connection to database", e);
+            logger.error("couldn't get read from database", e);
         } finally {
             try {
                 connection.close();
