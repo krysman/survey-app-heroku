@@ -15,8 +15,7 @@ public class DbSchemaCreator {
     private static final Logger logger = LoggerFactory.getLogger(DbSchemaCreator.class);
 
     private static final String QUERY_CREATE_ROLE_TABLE = "CREATE TABLE IF NOT EXISTS role (id SERIAL NOT NULL PRIMARY KEY, role VARCHAR(15))";
-    private static final String QUERY_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user " +
-            "(id SERIAL NOT NULL PRIMARY KEY, email VARCHAR(100), emailConfirmation BOOLEAN, emailNotifications BOOLEAN, confirmationToken VARCHAR(100))";
+    private static final String QUERY_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user (id SERIAL NOT NULL PRIMARY KEY, email VARCHAR(100), emailConfirmation BOOLEAN, emailNotifications BOOLEAN, confirmationToken VARCHAR(100))";
     private static final String QUERY_CREATE_USER_TABLE_DATA = "INSERT INTO user (email, emailConfirmation, emailNotifications, confirmationToken) " +
             "VALUES ('foo@bar.com', false, false, '-'), ('bar@foo.com', false, false, '-'), ('foobar@bf.com', true, true, '324r3rqef32fddf5y6')";
 
