@@ -64,10 +64,11 @@
             <version>2.1</version>
         </dependency>
 
+        <!--sparkjava depends on slf4j-api 1.7.7 so we are using 1.7.7 version of slf4j-log4j12 -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.10</version>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
         </dependency>
 
         <dependency>

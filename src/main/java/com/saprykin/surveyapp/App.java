@@ -1,5 +1,8 @@
 package com.saprykin.surveyapp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -12,6 +15,7 @@ import static spark.SparkBase.setPort;
  */
 public class App {
 
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
 
@@ -21,7 +25,7 @@ public class App {
         final String dbTestString = testDb();
 
         get("/", (request, response) -> {
-            System.out.println("get...");
+            logger.info("Called hhtp GET method, referer is:", request.headers("Referer"));
             return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2>" + "</body></html>";
         });
     }
@@ -30,6 +34,7 @@ public class App {
      * Heroku assigns different port each time, hence reading it from process.
      */
     private static void setPortForApp(){
+        logger.info("setting port for application...");
         ProcessBuilder process = new ProcessBuilder();
         Integer port;
         if(process.environment().get("PORT") != null) {
@@ -38,7 +43,7 @@ public class App {
             port = 8080;
         }
         setPort(port);
-        System.out.println("setting port... " + port);
+        logger.info("port is: " + port);
     }
 
 
@@ -50,6 +55,18 @@ public class App {
         String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
         return DriverManager.getConnection(dbUrl, username, password);
+    }
+
+    private static void createDbIfNotExist(){
+        String result = "testing...<br>";
+
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            result += "<br>successfully get connection...";
+        } catch(URISyntaxException | SQLException e) {
+            result += "<br>couldn't get connection!";
+        }
     }
 
     private static String testDb() {
