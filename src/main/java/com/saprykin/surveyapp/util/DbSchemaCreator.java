@@ -19,7 +19,7 @@ public class DbSchemaCreator {
     private static final String QUERY_CREATE_USER_TABLE_DATA = "INSERT INTO user (email, emailConfirmation, emailNotifications, confirmationToken) " +
             "VALUES ('foo@bar.com', false, false, '-'), ('bar@foo.com', false, false, '-'), ('foobar@bf.com', true, true, '324r3rqef32fddf5y6')";
 
-    private  Connection getConnection() throws URISyntaxException, SQLException {
+    private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
@@ -45,6 +45,12 @@ public class DbSchemaCreator {
 
         } catch(URISyntaxException | SQLException e) {
             logger.error("couldn't get connection to database", e);
+        } finally {
+            try {
+                connection.close();
+            } catch(SQLException e) {
+                logger.error("couldn't close connection", e);
+            }
         }
     }
 
@@ -63,7 +69,14 @@ public class DbSchemaCreator {
             }
 
         } catch(URISyntaxException | SQLException e) {
+
             logger.error("couldn't get connection to database", e);
+        } finally {
+            try {
+                connection.close();
+            } catch(SQLException e) {
+                logger.error("couldn't close connection", e);
+            }
         }
     }
 
@@ -96,6 +109,12 @@ public class DbSchemaCreator {
 
         } catch(URISyntaxException | SQLException e) {
             logger.error("couldn't get connection to database", e);
+        } finally {
+            try {
+                connection.close();
+            } catch(SQLException e) {
+                logger.error("couldn't close connection", e);
+            }
         }
         return result.toString();
     }
