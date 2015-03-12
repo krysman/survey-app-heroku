@@ -96,7 +96,7 @@ public class DbSchemaCreator {
 
                 while(resultSet.next()) {
                     result.append("id: ");
-                    result.append(resultSet.getURL("id"));
+                    result.append(resultSet.getInt("id"));
                     result.append(" e-mail: ");
                     result.append(resultSet.getString("email"));
                     result.append(" emailConfirmation: ");
