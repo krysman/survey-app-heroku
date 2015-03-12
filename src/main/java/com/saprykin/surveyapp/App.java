@@ -1,5 +1,6 @@
 package com.saprykin.surveyapp;
 
+import com.saprykin.surveyapp.util.DbSchemaCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +22,16 @@ public class App {
 
         setPortForApp();
 
+        DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
+        dbSchemaCreator.createDbIfNotExist();
+        dbSchemaCreator.createSomeDataInDb();
 
-        final String dbTestString = testDb();
+
+        //final String dbTestString = testDb();
 
         get("/", (request, response) -> {
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
-            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2><br><h3>" + request.headers().toString() + "</h3></body></html>";
+            return "<html><head><h1>Hello World!</h1></head><body>" + /*"<h2>" + dbTestString + "</h2>"+ */"<br><h3>" + request.headers().toString() + "</h3></body></html>";
         });
     }
 

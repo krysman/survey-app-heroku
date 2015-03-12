@@ -10,16 +10,18 @@ public class User {
     boolean emailConfirmation;
     boolean emailNotifications; // should we send to user some useful information
     String confirmationToken; // token that we send to user's e-mail so he or she could use it to confirm e-mail
+    //Role role;
 
     public User() {
     }
 
-    public User(int id, String email, boolean emailConfirmation, boolean emailNotifications, String confirmationToken) {
+    public User(int id, String email, boolean emailConfirmation, boolean emailNotifications, String confirmationToken, Role role) {
         this.id = id;
         this.email = email;
         this.emailConfirmation = emailConfirmation;
         this.emailNotifications = emailNotifications;
         this.confirmationToken = confirmationToken;
+        //this.role = role;
     }
 
     public int getId() {
