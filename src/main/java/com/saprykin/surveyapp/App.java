@@ -1,5 +1,9 @@
 package com.saprykin.surveyapp;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.sql.*;
+
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
 
@@ -21,16 +25,16 @@ public class App {
         }
         setPort(port);
 
-        //DaoTest daoTest = new DaoTest();
-        //final String dbTestString = daoTest.testDb();
+        DaoTest daoTest = new DaoTest();
+        final String dbTestString = testDb();
 
-        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" /*+ dbTestString*/ + "</h2>" + "</body></html>");
+        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>"  dbTestString + "</h2>" + "</body></html>");
     }
 
-/*
 
 
-    private  Connection getConnection() throws URISyntaxException, SQLException {
+
+    private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
         String username = dbUri.getUserInfo().split(":")[0];
@@ -40,7 +44,7 @@ public class App {
         return DriverManager.getConnection(dbUrl, username, password);
     }
 
-    public String testDb() {
+    private static String testDb() {
         String result = "testing...<br>";
 
         Connection connection = null;
@@ -93,6 +97,5 @@ public class App {
 
         return result;
     }
- */
 
 }
