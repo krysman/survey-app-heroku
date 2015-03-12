@@ -25,10 +25,9 @@ public class App {
         }
         setPort(port);
 
-        DaoTest daoTest = new DaoTest();
         final String dbTestString = testDb();
 
-        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>"  dbTestString + "</h2>" + "</body></html>");
+        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" +  dbTestString + "</h2>" + "</body></html>");
     }
 
 
