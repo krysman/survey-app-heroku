@@ -36,7 +36,7 @@ public class App {
             dbSchemaCreator.createDbIfNotExist();
             dbSchemaCreator.createSomeDataInDb();
 
-            return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/getting-started>Users</a> </h2></body></html>";
+            return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });
 
         get("/users", (request, response) -> {
