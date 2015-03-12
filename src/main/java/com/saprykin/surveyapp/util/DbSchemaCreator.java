@@ -34,8 +34,9 @@ public class DbSchemaCreator {
 
         Connection connection = null;
         try {
+            logger.info("create tables if not exist...");
             connection = getConnection();
-            logger.info("get connection to database");
+
 
             Statement stmt = connection.createStatement();
 
@@ -43,7 +44,7 @@ public class DbSchemaCreator {
                 stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
                 stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
             }
-            logger.info("create tables");
+            logger.info("create tables if not exist...SUCCESS!");
         } catch(URISyntaxException | SQLException e) {
             logger.error("couldn't get connection to database", e);
         } finally {
@@ -59,16 +60,15 @@ public class DbSchemaCreator {
 
         Connection connection = null;
         try {
+            logger.info("write some data into users table...");
             connection = getConnection();
-            logger.info("get connection to database");
 
             Statement stmt = connection.createStatement();
 
             if(stmt != null) {
-                stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
-                stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
+                stmt.executeUpdate(QUERY_CREATE_USER_TABLE_DATA);
             }
-            logger.info("write some data into DB");
+            logger.info("write some data into users table...SUCCESS!");
         } catch(URISyntaxException | SQLException e) {
 
             logger.error("couldn't get connection to database", e);
@@ -85,7 +85,7 @@ public class DbSchemaCreator {
         Connection connection = null;
         StringBuilder result = new StringBuilder();
         try {
-            logger.info("reading from DB...");
+            logger.info("reading all users from DB...");
             connection = getConnection();
 
 
@@ -108,7 +108,7 @@ public class DbSchemaCreator {
                     result.append("<br>");
                 }
             }
-
+            logger.info("reading all users from DB...SUCCESS!");
         } catch(URISyntaxException | SQLException e) {
             logger.error("couldn't get read from database", e);
         } finally {
