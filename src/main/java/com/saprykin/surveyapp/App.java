@@ -15,7 +15,21 @@ public class App {
 
     public static void main(String[] args) {
 
-        //Heroku assigns different port each time, hence reading it from process.
+        setPortForApp();
+
+
+        final String dbTestString = testDb();
+
+        get("/", (request, response) -> {
+            System.out.println("get...");
+            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2>" + "</body></html>";
+        });
+    }
+
+    /**
+     * Heroku assigns different port each time, hence reading it from process.
+     */
+    private static void setPortForApp(){
         ProcessBuilder process = new ProcessBuilder();
         Integer port;
         if(process.environment().get("PORT") != null) {
@@ -24,13 +38,8 @@ public class App {
             port = 8080;
         }
         setPort(port);
-
-        final String dbTestString = testDb();
-
-        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" +  dbTestString + "</h2>" + "</body></html>");
+        System.out.println("setting port... " + port);
     }
-
-
 
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -94,6 +103,7 @@ public class App {
             result += e.toString();
         }
 
+        System.out.println("testing db is done!");
         return result;
     }
 
