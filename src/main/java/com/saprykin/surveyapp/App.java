@@ -24,7 +24,7 @@ public class App {
         //DaoTest daoTest = new DaoTest();
         //final String dbTestString = daoTest.testDb();
 
-        get("/hello", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" /*+ dbTestString*/ + "</h2>" + "</body></html>");
+        get("/", (request, response) -> "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" /*+ dbTestString*/ + "</h2>" + "</body></html>");
     }
 
 /*
