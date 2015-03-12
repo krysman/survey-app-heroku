@@ -25,8 +25,8 @@ public class App {
         final String dbTestString = testDb();
 
         get("/", (request, response) -> {
-            logger.info("Called hhtp GET method, User-Agent is:", request.headers());
-            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2>" + "</body></html>";
+            logger.info("Called hhtp GET method, User-Agent is:", request.headers().toString());
+            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2><br><h3>" + request.headers().toString() + "</h3></body></html>";
         });
     }
 
