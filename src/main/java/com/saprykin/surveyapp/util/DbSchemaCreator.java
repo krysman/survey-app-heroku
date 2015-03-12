@@ -41,6 +41,7 @@ public class DbSchemaCreator {
             Statement stmt = connection.createStatement();
 
             if(stmt != null) {
+                stmt.executeUpdate("DROP TABLE IF EXISTS users");
                 stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
                 stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
             }
