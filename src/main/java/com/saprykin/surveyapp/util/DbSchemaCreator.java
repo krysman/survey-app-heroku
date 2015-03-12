@@ -14,9 +14,9 @@ public class DbSchemaCreator {
 
     private static final Logger logger = LoggerFactory.getLogger(DbSchemaCreator.class);
 
-    private static final String QUERY_CREATE_ROLE_TABLE = "CREATE TABLE IF NOT EXISTS role (id SERIAL NOT NULL PRIMARY KEY, role VARCHAR(15))";
-    private static final String QUERY_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS user (id SERIAL NOT NULL PRIMARY KEY, email VARCHAR(100), emailConfirmation BOOLEAN, emailNotifications BOOLEAN, confirmationToken VARCHAR(100))";
-    private static final String QUERY_CREATE_USER_TABLE_DATA = "INSERT INTO user (email, emailConfirmation, emailNotifications, confirmationToken) " +
+    private static final String QUERY_CREATE_ROLE_TABLE = "CREATE TABLE IF NOT EXISTS roles (id SERIAL NOT NULL PRIMARY KEY, role VARCHAR(15))";
+    private static final String QUERY_CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS users (id SERIAL NOT NULL PRIMARY KEY, email VARCHAR(100), emailConfirmation BOOLEAN, emailNotifications BOOLEAN, confirmationToken VARCHAR(100))";
+    private static final String QUERY_CREATE_USER_TABLE_DATA = "INSERT INTO users (email, emailConfirmation, emailNotifications, confirmationToken) " +
             "VALUES ('foo@bar.com', false, false, '-'), ('bar@foo.com', false, false, '-'), ('foobar@bf.com', true, true, '324r3rqef32fddf5y6')";
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -92,7 +92,7 @@ public class DbSchemaCreator {
             Statement stmt = connection.createStatement();
 
             if(stmt != null) {
-                ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
+                ResultSet resultSet = stmt.executeQuery("SELECT * FROM users");
 
                 while(resultSet.next()) {
                     result.append("id: ");
