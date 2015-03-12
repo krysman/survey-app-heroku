@@ -25,7 +25,7 @@ public class App {
         final String dbTestString = testDb();
 
         get("/", (request, response) -> {
-            logger.info("Called hhtp GET method, referer is:", request.headers("Referer"));
+            logger.info("Called hhtp GET method, referer is:", request.headers("REFERRER"));
             return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbTestString + "</h2>" + "</body></html>";
         });
     }
@@ -120,7 +120,6 @@ public class App {
             result += e.toString();
         }
 
-        System.out.println("testing db is done!");
         return result;
     }
 
