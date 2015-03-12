@@ -17,22 +17,32 @@ import static spark.SparkBase.setPort;
 public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
+    private static final DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
 
     public static void main(String[] args) {
 
         setPortForApp();
 
-        final DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
-        dbSchemaCreator.createDbIfNotExist();
-        dbSchemaCreator.createSomeDataInDb();
+
 
 
         //final String dbTestString = testDb();
 
         get("/", (request, response) -> {
 
+
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
-            return "<html><head><h1>Hello World!</h1></head><body>" + "<h2>" + dbSchemaCreator.readAllUsers() + "</h2>" + "<br><h3>" + request.headers().toString() + "</h3></body></html>";
+
+            dbSchemaCreator.createDbIfNotExist();
+            dbSchemaCreator.createSomeDataInDb();
+
+            return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/getting-started>Users</a> </h2></body></html>";
+        });
+
+        get("/users", (request, response) -> {
+            logger.info("Called hhtp GET method    /users");
+
+            return "<html><head><h1>Users:</h1></head><body><h2>" + dbSchemaCreator.readAllUsers() + "</h2></body></html>";
         });
     }
 
