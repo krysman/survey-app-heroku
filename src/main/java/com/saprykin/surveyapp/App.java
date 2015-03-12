@@ -22,7 +22,7 @@ public class App {
 
         setPortForApp();
 
-        DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
+        final DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
         dbSchemaCreator.createDbIfNotExist();
         dbSchemaCreator.createSomeDataInDb();
 

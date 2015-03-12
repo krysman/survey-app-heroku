@@ -95,8 +95,8 @@ public class DbSchemaCreator {
                 ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
 
                 while(resultSet.next()) {
-                    //result.append("id: ");
-                    //result.append(resultSet.getURL("id"));
+                    result.append("id: ");
+                    result.append(resultSet.getURL("id"));
                     result.append(" e-mail: ");
                     result.append(resultSet.getString("email"));
                     result.append(" emailConfirmation: ");
