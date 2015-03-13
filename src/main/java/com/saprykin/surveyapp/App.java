@@ -34,7 +34,7 @@ public class App {
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
 
             dbSchemaCreator.createDbIfNotExist();
-            dbSchemaCreator.createSomeDataInDb();
+            //dbSchemaCreator.createSomeDataInDb();
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });
@@ -42,7 +42,7 @@ public class App {
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
 
-            return "<html><head><h1>Users:</h1></head><body><h2>" + dbSchemaCreator.readAllUsers() + "</h2></body></html>";
+            return "<html><head><h1>Users:</h1></head><body><h2>" + /*dbSchemaCreator.readAllUsers()*/ + "</h2></body></html>";
         });
     }
 
