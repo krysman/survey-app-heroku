@@ -51,7 +51,8 @@ public class App {
             Role userRole = new Role();
             userRole.setRole("user");
             Role adminRole = new Role();
-            userRole.setRole("admin");
+            adminRole.setRole("admin");
+
 
             User user1 = new User();
             user1.setEmail("foo@bar.com");
