@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service("employeeService")
+@Service("userService")
 @Transactional //starts a transaction on each method start, and commits it on each method exit ( or rollback if method was failed due to an error).
 // Note that since the transaction are on method scope, and inside method we are using DAO, DAO method will be executed within same transaction
 public class UserServiceImpl implements UserService{
