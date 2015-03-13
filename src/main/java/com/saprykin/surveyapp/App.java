@@ -1,6 +1,7 @@
 package com.saprykin.surveyapp;
 
 import com.saprykin.surveyapp.configuration.AppConfig;
+import com.saprykin.surveyapp.model.User;
 import com.saprykin.surveyapp.service.UserService;
 import com.saprykin.surveyapp.util.DbSchemaCreator;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.util.List;
 
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
@@ -43,7 +45,7 @@ public class App {
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
             UserService service = (UserService) context.getBean("userService");
-            String allUsers = service.findAllUsers().toString();
+            List<User> allUsers = service.findAllUsers();
             return "<html><head><h1>Users:</h1></head><body><h2>" + allUsers + "</h2></body></html>";
         });
     }
