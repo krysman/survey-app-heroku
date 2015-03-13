@@ -52,19 +52,19 @@ public class HibernateConfiguration {
     //hib
     @Bean
     public DataSource dataSource() {
-        /*
+
         URI dbUri = null;
         try {
             dbUri = new URI(System.getenv("DATABASE_URL"));
         } catch(URISyntaxException e) {
             e.printStackTrace();
         }
-         */
+
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName")); // "org.postgresql.Driver"
-        dataSource.setUrl(environment.getRequiredProperty("jdbc.url")); // "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()
-        dataSource.setUsername(environment.getRequiredProperty("jdbc.username")); // dbUri.getUserInfo().split(":")[0]
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password")); // dbUri.getUserInfo().split(":")[1]
+        dataSource.setDriverClassName(environment.getRequiredProperty("org.postgresql.Driver")); // "org.postgresql.Driver"
+        dataSource.setUrl(environment.getRequiredProperty("jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath())); // "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()
+        dataSource.setUsername(environment.getRequiredProperty("dbUri.getUserInfo().split(\":\")[0]")); // dbUri.getUserInfo().split(":")[0]
+        dataSource.setPassword(environment.getRequiredProperty("dbUri.getUserInfo().split(\":\")[1]")); // dbUri.getUserInfo().split(":")[1]
         return dataSource;
     }
 
