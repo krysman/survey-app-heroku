@@ -1,7 +1,9 @@
 package com.saprykin.surveyapp;
 
 import com.saprykin.surveyapp.configuration.AppConfig;
+import com.saprykin.surveyapp.model.Role;
 import com.saprykin.surveyapp.model.User;
+import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
 import com.saprykin.surveyapp.util.DbSchemaCreator;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import javax.jws.soap.SOAPBinding;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -27,7 +30,8 @@ public class App {
         setPortForApp();
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-
+        UserService userService = (UserService) context.getBean("userService");
+        RoleService roleService = (RoleService) context.getBean("roleService");
 
         //final String dbTestString = testDb();
 
@@ -44,9 +48,31 @@ public class App {
 
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
-            UserService service = (UserService) context.getBean("userService");
-            List<User> allUsers = service.findAllUsers();
-            return "<html><head><h1>Users:</h1></head><body><h2>" + allUsers + "</h2></body></html>";
+            Role userRole = new Role();
+            userRole.setRole("user");
+            Role adminRole = new Role();
+            userRole.setRole("admin");
+
+            User user1 = new User();
+            user1.setEmail("foo@bar.com");
+            user1.setEmailConfirmation(false);
+            user1.setEmailNotifications(false);
+            user1.setRole(userRole);
+
+            User user2 = new User();
+            user2.setEmail("bar@foo.com");
+            user2.setEmailConfirmation(true);
+            user2.setEmailNotifications(true);
+            user2.setRole(adminRole);
+
+            roleService.saveRole(userRole);
+            roleService.saveRole(adminRole);
+
+            userService.saveUser(user1);
+            userService.saveUser(user2);
+
+            List<User> allUsers = userService.findAllUsers();
+            return "<html><head><h1>Users:</h1></head><body><br><h2>" + allUsers + "</h2></body></html>";
         });
     }
 
