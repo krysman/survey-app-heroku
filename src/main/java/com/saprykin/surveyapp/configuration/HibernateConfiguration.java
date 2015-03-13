@@ -61,10 +61,10 @@ public class HibernateConfiguration {
         }
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("org.postgresql.Driver")); // "org.postgresql.Driver"
-        dataSource.setUrl(environment.getRequiredProperty("jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath())); // "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()
-        dataSource.setUsername(environment.getRequiredProperty("dbUri.getUserInfo().split(\":\")[0]")); // dbUri.getUserInfo().split(":")[0]
-        dataSource.setPassword(environment.getRequiredProperty("dbUri.getUserInfo().split(\":\")[1]")); // dbUri.getUserInfo().split(":")[1]
+        dataSource.setDriverClassName("org.postgresql.Driver"); // "org.postgresql.Driver"
+        dataSource.setUrl("jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()); // "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()
+        dataSource.setUsername("dbUri.getUserInfo().split(\":\")[0]"); // dbUri.getUserInfo().split(":")[0]
+        dataSource.setPassword("dbUri.getUserInfo().split(\":\")[1]"); // dbUri.getUserInfo().split(":")[1]
         return dataSource;
     }
 
