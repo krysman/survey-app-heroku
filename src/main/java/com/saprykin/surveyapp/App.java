@@ -42,7 +42,7 @@ public class App {
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
 
-            return "<html><head><h1>Users:</h1></head><body><h2>" + /*dbSchemaCreator.readAllUsers()*/ + "</h2></body></html>";
+            return "<html><head><h1>Users:</h1></head><body><h2>" + /*dbSchemaCreator.readAllUsers() + */"</h2></body></html>";
         });
     }
 
