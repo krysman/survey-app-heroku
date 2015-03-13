@@ -5,9 +5,11 @@ import com.saprykin.surveyapp.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository("userDao")
 public class UserDaoImpl extends AbstractDao implements UserDao {
 
     @Override
@@ -24,7 +26,7 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     @Override
     public void deleteUserById(int userId) {
         Query query = getSession().createSQLQuery("delete from USERS where id = :userId");
-        query.setString("id", "userId");
+        query.setInteger("userId", userId);
         query.executeUpdate();
     }
 
