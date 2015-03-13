@@ -116,7 +116,8 @@ public class HibernateConfiguration {
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
-        /*Properties properties = new Properties();
+        properties.put("hibernate.hbm2ddl.auto", "update");
+        /*Properties properties = new Properties(); // name="hibernate.hbm2ddl.auto" value="update"
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));*/
