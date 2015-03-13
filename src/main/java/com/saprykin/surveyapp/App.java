@@ -1,8 +1,12 @@
 package com.saprykin.surveyapp;
 
+import com.saprykin.surveyapp.configuration.AppConfig;
+import com.saprykin.surveyapp.service.UserService;
 import com.saprykin.surveyapp.util.DbSchemaCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,9 +15,6 @@ import java.sql.*;
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
 
-/**
- * Created by Ivan on 3/12/2015.
- */
 public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
@@ -23,7 +24,7 @@ public class App {
 
         setPortForApp();
 
-
+        AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
 
         //final String dbTestString = testDb();
@@ -33,7 +34,7 @@ public class App {
 
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
 
-            dbSchemaCreator.createDbIfNotExist();
+            //dbSchemaCreator.createDbIfNotExist();
             //dbSchemaCreator.createSomeDataInDb();
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
@@ -41,8 +42,9 @@ public class App {
 
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
-
-            return "<html><head><h1>Users:</h1></head><body><h2>" + /*dbSchemaCreator.readAllUsers() + */"</h2></body></html>";
+            UserService service = (UserService) context.getBean("userService");
+            String allUsers = service.findAllUsers().toString();
+            return "<html><head><h1>Users:</h1></head><body><h2>" + allUsers + "</h2></body></html>";
         });
     }
 
@@ -62,7 +64,7 @@ public class App {
         logger.info("port is: " + port);
     }
 
-
+/*
     private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
@@ -138,5 +140,5 @@ public class App {
 
         return result;
     }
-
+*/
 }

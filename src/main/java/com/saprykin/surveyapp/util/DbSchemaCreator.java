@@ -41,12 +41,8 @@ public class DbSchemaCreator {
             Statement stmt = connection.createStatement();
 
             if(stmt != null) {
-                stmt.executeUpdate("DROP TABLE IF EXISTS users");
-                //stmt.executeUpdate("DROP TABLE IF EXISTS user");
-                stmt.executeUpdate("DROP TABLE IF EXISTS role");
-                stmt.executeUpdate("DROP TABLE IF EXISTS roles");
-                //stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
-                //stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
+                stmt.executeUpdate(QUERY_CREATE_ROLE_TABLE);
+                stmt.executeUpdate(QUERY_CREATE_USER_TABLE);
             }
             logger.info("create tables if not exist...SUCCESS!");
         } catch(URISyntaxException | SQLException e) {

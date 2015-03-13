@@ -1,5 +1,8 @@
 package com.saprykin.surveyapp.model;
 
+
+import javax.persistence.*;
+
 /**
  * Created by Ivan on 3/12/2015.
  *
@@ -7,14 +10,22 @@ package com.saprykin.surveyapp.model;
  * Manager has all rights of User plus some more
  * Admin has all rights of Manager (and User) and some more
  */
+
+@Entity
+@Table(name = "ROLES")
 public class Role {
 
-    int id;
-    String role;
+    private int id;
+    private String role;
 
     public Role() {
     }
 
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+
+    @SequenceGenerator(sequenceName = "ROLE_ID_SEQUENCE", name = "RoleIdSequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RoleIdSequence")
     public int getId() {
         return id;
     }
@@ -23,6 +34,7 @@ public class Role {
         this.id = id;
     }
 
+    @Column(name = "role", unique = true, nullable = false, length = 15)
     public String getRole() {
         return role;
     }
