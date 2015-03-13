@@ -22,8 +22,7 @@ public class Role {
     }
 
     @Id
-    @Column(name = "id", unique = true, nullable = false)
-
+    @Column(name = "id", unique = true)
     @SequenceGenerator(sequenceName = "ROLE_ID_SEQUENCE", name = "RoleIdSequence")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RoleIdSequence")
     public int getId() {
