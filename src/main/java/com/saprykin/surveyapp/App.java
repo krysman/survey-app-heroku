@@ -5,17 +5,14 @@ import com.saprykin.surveyapp.model.Role;
 import com.saprykin.surveyapp.model.User;
 import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
-import com.saprykin.surveyapp.util.DbSchemaCreator;
+//import com.saprykin.surveyapp.util.DbSchemaCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import javax.jws.soap.SOAPBinding;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.*;
 import java.util.List;
+import java.util.Random;
 
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
@@ -23,7 +20,7 @@ import static spark.SparkBase.setPort;
 public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
-    private static final DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
+    //private static final DbSchemaCreator dbSchemaCreator = new DbSchemaCreator();
 
     public static void main(String[] args) {
 
@@ -34,6 +31,14 @@ public class App {
         RoleService roleService = (RoleService) context.getBean("roleService");
 
         //final String dbTestString = testDb();
+
+        Role userRole = new Role();
+        userRole.setRole("user");
+        Role adminRole = new Role();
+        adminRole.setRole("admin");
+
+        roleService.saveRole(userRole);
+        roleService.saveRole(adminRole);
 
         get("/", (request, response) -> {
 
@@ -48,26 +53,23 @@ public class App {
 
         get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
-            Role userRole = new Role();
-            userRole.setRole("user");
-            Role adminRole = new Role();
-            adminRole.setRole("admin");
 
+
+            Random random = new Random();
 
             User user1 = new User();
-            user1.setEmail("foo@bar.com");
+            user1.setEmail("foo" + random.nextInt(10000) * random.nextDouble() + "@bar.com");
             user1.setEmailConfirmation(false);
             user1.setEmailNotifications(false);
             user1.setRole(userRole);
 
             User user2 = new User();
-            user2.setEmail("bar@foo.com");
+            user2.setEmail("bar" + random.nextInt(10000) * random.nextDouble() + "@foo.com");
             user2.setEmailConfirmation(true);
             user2.setEmailNotifications(true);
             user2.setRole(adminRole);
 
-            roleService.saveRole(userRole);
-            roleService.saveRole(adminRole);
+
 
             userService.saveUser(user1);
             userService.saveUser(user2);

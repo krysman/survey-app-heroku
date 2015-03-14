@@ -1,6 +1,8 @@
 package com.saprykin.surveyapp.configuration;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +25,11 @@ import java.util.Properties;
 @ComponentScan({ "com.saprykin.surveyapp.configuration" }) // providing with where to look for spring managed beans/classes
 public class HibernateConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger(HibernateConfiguration.class);
 
     @Autowired
     private Environment environment;
 
-    //hib
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -36,7 +38,6 @@ public class HibernateConfiguration {
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
-
 
     /*//jpa
     @Bean
@@ -49,31 +50,30 @@ public class HibernateConfiguration {
         return builder.buildSessionFactory();
     }*/
 
-    //hib
     @Bean
     public DataSource dataSource() {
 
         URI dbUri = null;
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
         try {
             dbUri = new URI(System.getenv("DATABASE_URL"));
+
+            String username = dbUri.getUserInfo().split(":")[0];
+            String password = dbUri.getUserInfo().split(":")[1];
+            //String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+            String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+
+            dataSource.setDriverClassName("org.postgresql.Driver");
+            dataSource.setUrl(dbUrl);
+            dataSource.setUsername(username);
+            dataSource.setPassword(password);
+
         } catch(URISyntaxException e) {
-            e.printStackTrace();
+            logger.error("ERROR while setting dataSource____:", e);
         }
 
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver"); // "org.postgresql.Driver"
-        dataSource.setUrl("jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()); // "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath()
-        dataSource.setUsername(dbUri.getUserInfo().split(":")[0]); // dbUri.getUserInfo().split(":")[0]
-        dataSource.setPassword(dbUri.getUserInfo().split(":")[1]); // dbUri.getUserInfo().split(":")[1]
         return dataSource;
     }
-
-
-    /*
-            String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-     */
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     /*@Bean
@@ -86,7 +86,6 @@ public class HibernateConfiguration {
         }
         return dbUri;
     }*/
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     /*
     //hib
@@ -109,8 +108,9 @@ public class HibernateConfiguration {
         ds.setUrl("jdbc:mysql://localhost:3306/test");
         ds.setUsername("root");
         return ds;
-    }
-    */
+    }*/
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
@@ -125,7 +125,7 @@ public class HibernateConfiguration {
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
 
         <property key="hibernate.connection.characterEncoding">UTF-8</property>
-<property key="hibernate.connection.useUnicode">true</property>
+        <property key="hibernate.connection.useUnicode">true</property>
 
         */
         return properties;
@@ -138,11 +138,4 @@ public class HibernateConfiguration {
         txManager.setSessionFactory(s);
         return txManager;
     }
-
-
-
-
-
-
-
 }
