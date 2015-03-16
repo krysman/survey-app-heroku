@@ -25,8 +25,7 @@ public class App {
 
         setPortForApp();
 
-        String log4jConfPath = "properties/log4j.properties";
-        PropertyConfigurator.configure(log4jConfPath);
+
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
@@ -93,6 +92,11 @@ public class App {
         }
         setPort(port);
         logger.info("port is: " + port);
+    }
+
+    private static void setUpLog4jProperties() {
+        String log4jConfPath = "properties/log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
     }
 }
 
