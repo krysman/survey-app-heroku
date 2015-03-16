@@ -24,7 +24,7 @@ public class App {
     public static void main(String[] args) {
 
         setPortForApp();
-
+        setUpLog4jProperties();
 
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
