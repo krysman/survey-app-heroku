@@ -49,8 +49,8 @@ public class HibernateConfiguration {
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
-            dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
-            //dataSource.setDriverClassName("org.postgresql.Driver");
+            //dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+            dataSource.setDriverClassName("org.postgresql.Driver");
             dataSource.setUrl(dbUrl);
             dataSource.setUsername(username);
             dataSource.setPassword(password);
