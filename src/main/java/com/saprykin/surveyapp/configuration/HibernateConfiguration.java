@@ -1,6 +1,5 @@
 package com.saprykin.surveyapp.configuration;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.hibernate.SessionFactory;
@@ -18,7 +17,6 @@ import javax.sql.DataSource;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Properties;
-
 
 @Configuration // indicates that this class contains one or more bean methods annotated with @Bean producing beans manageable by spring container
 @EnableTransactionManagement // is equivalent to Spring’s tx:* XML namespace, enabling Spring’s annotation-driven transaction management capability.
@@ -39,31 +37,20 @@ public class HibernateConfiguration {
         return sessionFactory;
     }
 
-    /*//jpa
-    @Bean
-    public SessionFactory sessionFactory() {
-        LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
-        builder
-                .scanPackages("com.mkyong.users.model")
-                .addProperties(getHibernateProperties());
-
-        return builder.buildSessionFactory();
-    }*/
-
     @Bean
     public DataSource dataSource() {
 
-        URI dbUri = null;
+        URI dbUri;
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         try {
             dbUri = new URI(System.getenv("DATABASE_URL"));
 
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
-            //String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
 
-            dataSource.setDriverClassName("org.postgresql.Driver");
+            dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
+            //dataSource.setDriverClassName("org.postgresql.Driver");
             dataSource.setUrl(dbUrl);
             dataSource.setUsername(username);
             dataSource.setPassword(password);
@@ -75,59 +62,22 @@ public class HibernateConfiguration {
         return dataSource;
     }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    /*@Bean
-    private URI dbUrl() {
-        URI dbUri = null;
-        try {
-            dbUri = new URI(System.getenv("DATABASE_URL"));
-        } catch(URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return dbUri;
-    }*/
-
-    /*
-    //hib
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/spring_jpa");
-        dataSource.setUsername( "tutorialuser" );
-        dataSource.setPassword( "tutorialmy5ql" );
-        return dataSource;
-    }
-
-    //jpa
-    @Bean(name = "dataSource")
-    public BasicDataSource dataSource() {
-
-        BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/test");
-        ds.setUsername("root");
-        return ds;
-    }*/
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
+        /*properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.hbm2ddl.auto", "create");
         properties.put("hibernate.connection.characterEncoding", "UTF-8");
-        properties.put("hibernate.connection.useUnicode", "true");
-        /*Properties properties = new Properties(); // name="hibernate.hbm2ddl.auto" value="update"
+        properties.put("hibernate.connection.useUnicode", "true");*/
+
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto")); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        properties.put("hibernate.connection.characterEncoding", environment.getRequiredProperty("hibernate.connection.characterEncoding"));
+        properties.put("hibernate.connection.useUnicode", environment.getRequiredProperty("hibernate.connection.useUnicode"));
 
-        <property key="hibernate.connection.characterEncoding">UTF-8</property>
-        <property key="hibernate.connection.useUnicode">true</property>
-
-        */
         return properties;
     }
 
