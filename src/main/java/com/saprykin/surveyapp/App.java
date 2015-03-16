@@ -6,6 +6,7 @@ import com.saprykin.surveyapp.model.User;
 import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -23,6 +24,9 @@ public class App {
     public static void main(String[] args) {
 
         setPortForApp();
+
+        String log4jConfPath = "properties/log4j.properties";
+        PropertyConfigurator.configure(log4jConfPath);
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
