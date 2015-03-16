@@ -115,7 +115,12 @@
             <version>4.1.5.RELEASE</version>
         </dependency>
 
-
+        <!-- JSON transformer -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+        </dependency>
 
 
     </dependencies>

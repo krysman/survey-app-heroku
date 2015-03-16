@@ -6,6 +6,7 @@ import com.saprykin.surveyapp.model.User;
 import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
 
+import com.saprykin.surveyapp.util.JsonTransformer;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,22 +61,23 @@ public class App {
         userService.saveUser(user2);
 
         get("/", (request, response) -> {
-
-
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
-
-            //dbSchemaCreator.createDbIfNotExist();
-            //dbSchemaCreator.createSomeDataInDb();
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });
 
-        get("/users", (request, response) -> {
+        get("/users", "application/json", (request, response) -> {
+            logger.info("Called hhtp GET method    /users");
+
+            return userService.findAllUsers();
+        }, new JsonTransformer());
+
+        /*get("/users", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
 
             List<User> allUsers = userService.findAllUsers();
             return "<html><head><h1>Users:</h1></head><body><br><h2>" + allUsers + "</h2></body></html>";
-        });
+        });*/
     }
 
     /**
@@ -99,83 +101,3 @@ public class App {
         PropertyConfigurator.configure(log4jConfPath);
     }
 }
-
-/*
-    private static Connection getConnection() throws URISyntaxException, SQLException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
-
-        return DriverManager.getConnection(dbUrl, username, password);
-    }
-
-    private static void createDbIfNotExist(){
-        String result = "testing...<br>";
-
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            result += "<br>successfully get connection...";
-        } catch(URISyntaxException | SQLException e) {
-            result += "<br>couldn't get connection!";
-        }
-    }
-
-    private static String testDb() {
-        String result = "testing...<br>";
-
-        Connection connection = null;
-        try {
-            connection = getConnection();
-            result += "<br>successfully get connection...";
-        } catch(URISyntaxException | SQLException e) {
-            result += "<br>couldn't get connection!";
-        }
-
-        try {
-            Statement stmt;
-            if(connection != null) {
-                stmt = connection.createStatement();
-                result += "<br>successfully created statement...";
-            }
-            else {
-                stmt = null;
-                result += "<br>connection is null, and statement couldn't be created";
-            }
-            StringBuilder res = new StringBuilder();
-
-            if(stmt != null) {
-                stmt.executeUpdate("DROP TABLE IF EXISTS users");
-                stmt.executeUpdate(
-                        "CREATE TABLE users " +
-                        "(id SERIAL NOT NULL PRIMARY KEY ," +
-                        " email VARCHAR(100) NOT NULL )"
-                );
-
-                stmt.executeUpdate("INSERT INTO users (email) VALUES ('foo@bar.com'), ('bar@foo.com'), ('foobar@bf.com') ");
-                ResultSet rs = stmt.executeQuery("SELECT * FROM users");
-
-                res.append("Reading from DB:<br>");
-                while(rs.next()) {
-                    res.append("id: ");
-                    res.append(rs.getInt("id"));
-                    res.append(" e-mail: ");
-                    res.append(rs.getString("email"));
-                    res.append("<br>");
-                }
-            }
-
-            result = res.toString();
-
-        } catch(SQLException e) {
-            result += "<br>";
-            result += e.toString();
-        }
-
-        return result;
-    }
-*/
-
-
