@@ -7,6 +7,5 @@
 *.iml
 *.iws
 
-# Maven
+# Maven target/
 log/
-target/
