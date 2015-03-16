@@ -13,9 +13,9 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import java.util.List;
 import java.util.Random;
-
+/*
 import static spark.Spark.get;
-import static spark.SparkBase.setPort;
+import static spark.SparkBase.setPort;*/
 
 public class App {
 
@@ -24,7 +24,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        setPortForApp();
+        //setPortForApp();
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
@@ -40,7 +40,25 @@ public class App {
         roleService.saveRole(userRole);
         roleService.saveRole(adminRole);
 
-        get("/", (request, response) -> {
+        Random random = new Random();
+
+        User user1 = new User();
+        user1.setEmail("foo" + random.nextInt(10000) * random.nextDouble() + "@bar.com");
+        user1.setEmailConfirmation(false);
+        user1.setEmailNotifications(false);
+        user1.setRole(userRole);
+
+        User user2 = new User();
+        user2.setEmail("bar" + random.nextInt(10000) * random.nextDouble() + "@foo.com");
+        user2.setEmailConfirmation(true);
+        user2.setEmailNotifications(true);
+        user2.setRole(adminRole);
+
+
+        userService.saveUser(user1);
+        userService.saveUser(user2);
+
+        /*get("/", (request, response) -> {
 
 
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
@@ -77,12 +95,12 @@ public class App {
             List<User> allUsers = userService.findAllUsers();
             return "<html><head><h1>Users:</h1></head><body><br><h2>" + allUsers + "</h2></body></html>";
         });
-    }
+    }*/
 
-    /**
-     * Heroku assigns different port each time, hence reading it from process.
-     */
-    private static void setPortForApp(){
+        /**
+         * Heroku assigns different port each time, hence reading it from process.
+         */
+   /* private static void setPortForApp(){
         logger.info("setting port for application...");
         ProcessBuilder process = new ProcessBuilder();
         Integer port;
@@ -93,7 +111,7 @@ public class App {
         }
         setPort(port);
         logger.info("port is: " + port);
-    }
+    }*/
 
 /*
     private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -172,4 +190,6 @@ public class App {
         return result;
     }
 */
+
+    }
 }
