@@ -26,7 +26,7 @@ public class App {
 
         setPortForApp();
         setUpLog4jProperties();
-        staticFileLocation("/public/*");
+        staticFileLocation("/public");
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
