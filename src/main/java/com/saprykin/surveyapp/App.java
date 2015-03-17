@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import java.util.List;
 import java.util.Random;
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
@@ -71,13 +70,6 @@ public class App {
 
             return userService.findAllUsers();
         }, new JsonTransformer());
-
-        /*get("/users", (request, response) -> {
-            logger.info("Called hhtp GET method    /users");
-
-            List<User> allUsers = userService.findAllUsers();
-            return "<html><head><h1>Users:</h1></head><body><br><h2>" + allUsers + "</h2></body></html>";
-        });*/
     }
 
     /**
