@@ -61,6 +61,8 @@ public class App {
         userService.saveUser(user1);
         userService.saveUser(user2);
 
+        staticFileLocation("/public");
+
         /*get("/", (request, response) -> {
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
 
