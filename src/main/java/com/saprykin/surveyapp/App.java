@@ -16,6 +16,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import java.util.Random;
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
+import static spark.SparkBase.staticFileLocation;
 
 public class App {
 
@@ -25,7 +26,7 @@ public class App {
 
         setPortForApp();
         setUpLog4jProperties();
-
+        staticFileLocation("/public");
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
