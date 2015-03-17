@@ -90,7 +90,7 @@ public class App {
     }
 
     private static void setUpLog4jProperties() {
-        String log4jConfPath = "properties/log4j.properties";
+        String log4jConfPath = "web/WEB-INF/classes/log4j.properties";
         PropertyConfigurator.configure(log4jConfPath);
     }
 }
