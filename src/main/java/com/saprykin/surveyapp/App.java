@@ -59,11 +59,11 @@ public class App {
         userService.saveUser(user1);
         userService.saveUser(user2);
 
-        get("/", (request, response) -> {
+        /*get("/", (request, response) -> {
             logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
-        });
+        });*/
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
