@@ -24,13 +24,12 @@ public class App {
 
     public static void main(String[] args) {
 
-        //staticFileLocation("\\public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
-        //staticFileLocation("public");
-        //staticFileLocation("public\\");
-        staticFileLocation("/classes/public");
-//        staticFileLocation("public/");
-//        staticFileLocation("/public/");
-//        staticFileLocation("\\public\\");
+        // Observe: this method must be called before all other methods.
+//        staticFileLocation("/classes/public");
+        staticFileLocation("/classes/public/");
+//        staticFileLocation("classes/public");
+//        staticFileLocation("\\classes\\public");
+//        staticFileLocation("classes\\public");
 
         setPortForApp();
         setUpLog4jProperties();
