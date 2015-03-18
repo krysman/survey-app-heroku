@@ -29,8 +29,8 @@ public class App {
     public static void main(String[] args) {
 
         //staticFileLocation("\\public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
-        staticFileLocation("public");
-        //staticFileLocation("public\\");
+        //staticFileLocation("public");
+        staticFileLocation("public\\");
         //staticFileLocation("/public");
         //staticFileLocation("public/");
 
@@ -77,23 +77,6 @@ public class App {
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });*/
-
-        get("/e", (request, response) -> {
-            String path = "___";
-            try {
-                path += new ClassPathResource(".").getFile().getPath();
-                path += new ClassPathResource(".").getFile().getCanonicalPath();
-                path += new ClassPathResource(".").getFile().getPath();
-
-                path += new ClassPathResource(".").getFile().toString();
-                path += new ClassPathResource(".").getPath();
-
-            } catch(FileNotFoundException e) {
-
-            }
-
-            return path + "  42!";
-        });
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
