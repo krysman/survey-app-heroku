@@ -29,7 +29,7 @@ public class App {
 //        staticFileLocation("/classes/public/");
 //        staticFileLocation("classes/public");
 //        staticFileLocation("\\classes\\public");
-        staticFileLocation("/public/*"); // Static files
+        staticFileLocation("/public"); // Static files
 
         setPortForApp();
         setUpLog4jProperties();
