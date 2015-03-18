@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import spark.SparkBase;
+import spark.resource.ClassPathResource;
 
 import java.util.Random;
 import static spark.Spark.get;
@@ -76,9 +77,7 @@ public class App {
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });*/
 
-        get("/e", (request, response) -> {
-            return System.getenv("CLASSPATH");
-        });
+        get("/e", (request, response) -> new ClassPathResource(".").getFile().getAbsolutePath());
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
