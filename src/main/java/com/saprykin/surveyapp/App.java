@@ -15,6 +15,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 
 import java.util.Random;
 import static spark.Spark.get;
+import static spark.SparkBase.externalStaticFileLocation;
 import static spark.SparkBase.setPort;
 import static spark.SparkBase.staticFileLocation;
 
@@ -24,7 +25,8 @@ public class App {
 
     public static void main(String[] args) {
 
-        staticFileLocation("public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
+        externalStaticFileLocation("/public");
+        //staticFileLocation("public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
         setPortForApp();
         setUpLog4jProperties();
 
@@ -68,6 +70,10 @@ public class App {
 
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });*/
+
+        get("/e", (request, response) -> {
+            return System.getenv("CLASSPATH");
+        });
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
