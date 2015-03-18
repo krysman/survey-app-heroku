@@ -12,13 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
-import spark.SparkBase;
-import spark.resource.ClassPathResource;
 
-import java.io.FileNotFoundException;
 import java.util.Random;
 import static spark.Spark.get;
-import static spark.SparkBase.externalStaticFileLocation;
 import static spark.SparkBase.setPort;
 import static spark.SparkBase.staticFileLocation;
 
@@ -30,8 +26,8 @@ public class App {
 
         //staticFileLocation("\\public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
         //staticFileLocation("public");
-        staticFileLocation("public\\");
-        //staticFileLocation("/public");
+        //staticFileLocation("public\\");
+        staticFileLocation("/public");
         //staticFileLocation("public/");
 
         setPortForApp();
