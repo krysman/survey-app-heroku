@@ -15,6 +15,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import spark.SparkBase;
 import spark.resource.ClassPathResource;
 
+import java.io.FileNotFoundException;
 import java.util.Random;
 import static spark.Spark.get;
 import static spark.SparkBase.externalStaticFileLocation;
@@ -78,7 +79,19 @@ public class App {
         });*/
 
         get("/e", (request, response) -> {
-            String path = new ClassPathResource(".").getFile().getAbsolutePath();
+            String path = "___";
+            try {
+                path += new ClassPathResource(".").getFile().getPath();
+                path += new ClassPathResource(".").getFile().getCanonicalPath();
+                path += new ClassPathResource(".").getFile().getPath();
+
+                path += new ClassPathResource(".").getFile().toString();
+                path += new ClassPathResource(".").getPath();
+
+            } catch(FileNotFoundException) {
+
+            }
+
             return path + "  42!";
         });
 
