@@ -26,8 +26,8 @@ public class App {
 
         // Observe: this method must be called before all other methods.
 //        staticFileLocation("/classes/public");
-        staticFileLocation("/classes/public/");
-//        staticFileLocation("classes/public");
+//        staticFileLocation("/classes/public/");
+        staticFileLocation("classes/public");
 //        staticFileLocation("\\classes\\public");
 //        staticFileLocation("classes\\public");
 
