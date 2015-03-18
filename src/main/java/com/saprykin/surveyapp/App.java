@@ -24,9 +24,10 @@ public class App {
 
     public static void main(String[] args) {
 
+        staticFileLocation("/public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
         setPortForApp();
         setUpLog4jProperties();
-        staticFileLocation("/public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
+
 
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
