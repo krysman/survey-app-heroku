@@ -88,7 +88,7 @@ public class App {
                 path += new ClassPathResource(".").getFile().toString();
                 path += new ClassPathResource(".").getPath();
 
-            } catch(FileNotFoundException) {
+            } catch(FileNotFoundException e) {
 
             }
 
