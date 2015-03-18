@@ -77,7 +77,10 @@ public class App {
             return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
         });*/
 
-        get("/e", (request, response) -> new ClassPathResource(".").getFile().getAbsolutePath());
+        get("/e", (request, response) -> {
+            String path = new ClassPathResource(".").getFile().getAbsolutePath();
+            return path + "  42!";
+        });
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
