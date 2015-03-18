@@ -24,7 +24,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        staticFileLocation("/public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
+        staticFileLocation("public"); ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111  Observe: this method must be called before all other methods.
         setPortForApp();
         setUpLog4jProperties();
 
