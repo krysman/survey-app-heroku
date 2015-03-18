@@ -29,8 +29,8 @@ public class App {
         //staticFileLocation("public\\");
 //        staticFileLocation("/public");
 //        staticFileLocation("public/");
-        staticFileLocation("/public/");
-        //staticFileLocation("\\public\\");
+//        staticFileLocation("/public/");
+        staticFileLocation("\\public\\");
 
         setPortForApp();
         setUpLog4jProperties();
