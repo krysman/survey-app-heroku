@@ -1,5 +1,6 @@
 package com.saprykin.surveyapp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saprykin.surveyapp.configuration.AppConfig;
 import com.saprykin.surveyapp.model.Pool;
 import com.saprykin.surveyapp.model.Role;
@@ -14,7 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import spark.Request;
+import spark.Response;
+import spark.Route;
+import spark.Session;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
@@ -100,6 +107,38 @@ public class App {
 
             return poolService.findAllPools();
         }, new JsonTransformer());
+
+        get("/info", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                Session session = request.session();
+
+                return session.attributes();
+            }
+        }, new JsonTransformer());
+
+
+        get("/login", (request, response) -> {
+            logger.info("Called hhtp GET method    /login");
+
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.raw().getInputStream()));
+            String json = br.readLine();
+
+            // 2. initiate jackson mapper
+            ObjectMapper mapper = new ObjectMapper();
+
+            // 3. Convert received JSON to String
+            String userInputString = mapper.readValue(json, String.class);
+
+            Session session = request.session();
+            logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! session.isNew = " + session.isNew());
+            session.attribute("userAuthentication", true);
+            session.attribute("userRole", "user");
+            session.attribute("userEmail", userInputString);
+
+            return null;
+        });
     }
 
     /**
