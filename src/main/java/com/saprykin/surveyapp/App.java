@@ -1,8 +1,10 @@
 package com.saprykin.surveyapp;
 
 import com.saprykin.surveyapp.configuration.AppConfig;
+import com.saprykin.surveyapp.model.Pool;
 import com.saprykin.surveyapp.model.Role;
 import com.saprykin.surveyapp.model.User;
+import com.saprykin.surveyapp.service.PoolService;
 import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
 
@@ -13,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Random;
 import static spark.Spark.get;
 import static spark.SparkBase.setPort;
@@ -25,21 +29,22 @@ public class App {
     public static void main(String[] args) {
 
         // Observe: this method must be called before all other methods.
-//        staticFileLocation("/classes/public");
-//        staticFileLocation("/classes/public/");
-//        staticFileLocation("classes/public");
-//        staticFileLocation("\\classes\\public");
         staticFileLocation("/public"); // Static files
 
         setPortForApp();
         setUpLog4jProperties();
 
-
         AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = (UserService) context.getBean("userService");
         RoleService roleService = (RoleService) context.getBean("roleService");
+        PoolService poolService = (PoolService) context.getBean("poolService");
 
-        //final String dbTestString = testDb();
+        Pool pool1 = new Pool();
+        pool1.setCreationDate(LocalDate.now());
+        pool1.setTitle("New pool!");
+        pool1.setDurationInDays(7);
+
+        poolService.savePool(pool1);
 
         Role userRole = new Role();
         userRole.setRole("user");
@@ -77,6 +82,23 @@ public class App {
             logger.info("Called hhtp GET method    /users");
 
             return userService.findAllUsers();
+        }, new JsonTransformer());
+
+        get("/pools", "application/json", (request, response) -> {
+            logger.info("Called hhtp GET method    /pools");
+
+            return poolService.findAllPools();
+        }, new JsonTransformer());
+
+        get("/pool", "application/json", (request, response) -> {
+            logger.info("Called hhtp GET method    /pool");
+            List<Pool> pools = poolService.findAllPools();
+            Pool pool = pools.get(0);
+            Random r = new Random();
+            pool.setTitle("Brand new pool! " + r.nextInt(10000));
+            poolService.updatePool(pool);
+
+            return poolService.findAllPools();
         }, new JsonTransformer());
     }
 

@@ -17,15 +17,6 @@ public class User {
     public User() {
     }
 
-    public User(int id, String email, boolean emailConfirmation, boolean emailNotifications, String confirmationToken, Role role) {
-        this.id = id;
-        this.email = email;
-        this.emailConfirmation = emailConfirmation;
-        this.emailNotifications = emailNotifications;
-        this.confirmationToken = confirmationToken;
-        this.role = role;
-    }
-
     @Id
     @Column(name = "id", unique = true)
     @SequenceGenerator(sequenceName = "USER_ID_SEQUENCE", name = "UserIdSequence")
