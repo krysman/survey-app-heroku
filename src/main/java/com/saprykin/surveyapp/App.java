@@ -119,7 +119,7 @@ public class App {
 
 
         get("/login", (request, response) -> {
-            logger.info("Called hhtp GET method    /login");
+            logger.info("Called hhtp GET method   /login");
 
 
             BufferedReader br = new BufferedReader(new InputStreamReader(request.raw().getInputStream()));
