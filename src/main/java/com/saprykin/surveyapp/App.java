@@ -21,11 +21,13 @@ import spark.Route;
 import spark.Session;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.SparkBase.setPort;
 import static spark.SparkBase.staticFileLocation;
 
@@ -118,7 +120,40 @@ public class App {
         }, new JsonTransformer());
 
 
-        get("/login", (request, response) -> {
+        // TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        post("/login", new Route() {
+            @Override
+            public Object handle(Request req, Response res) {
+
+                logger.info("Called hhtp GET method   /login");
+
+
+                BufferedReader br = null;
+                String userInputString = "";
+                try {
+                    br = new BufferedReader(new InputStreamReader(req.raw().getInputStream()));
+                    String json = br.readLine();
+
+                    // 2. initiate jackson mapper
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    // 3. Convert received JSON to String
+                    userInputString = mapper.readValue(json, String.class);
+                } catch(IOException e) {
+                    logger.error("Some shit happend while trying to get user input from JSON file!!!!!", e);
+                }
+
+                Session session = req.session();
+                logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! session.isNew = " + session.isNew());
+                session.attribute("userAuthentication", true);
+                session.attribute("userRole", "user");
+                session.attribute("userEmail", userInputString);
+
+                return null;
+            }
+        });
+
+        /*post("/login", (request, response) -> {
             logger.info("Called hhtp GET method   /login");
 
 
@@ -138,7 +173,7 @@ public class App {
             session.attribute("userEmail", userInputString);
 
             return null;
-        });
+        });*/
     }
 
     /**

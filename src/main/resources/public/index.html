@@ -57,14 +57,12 @@
                 <div class="col-lg-6">
                     <form id="lab1Form">
                         <div class="input-group" id="input-group" >
-                            <input id="loginStr" name="lab1str" type="text"  placeholder="e-mail" class="form-control">
+                            <input id="loginStr" type="text"  placeholder="e-mail" class="form-control">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" id="loginSubmitBtn" type="button" >Log in!</button>  <!-- onclick="sendAjax()" -->
                             </span>
-
                          </div>
                     </form>
-
                 </div>
 
 
@@ -125,6 +123,7 @@
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+<script srs="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.map"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
 
@@ -132,38 +131,7 @@
             sendAjax();
     });
 </script>
-<script>
-    function sendAjax() {
-
-// get inputs
-        var userInput = $('#loginStr').val();
-
-        $.ajax({
-            url: "/login",
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(userInput),
-            contentType: 'application/json',
-            mimeType: 'application/json'
-
-//            success: function (data) {
-//                $("tr:has(td)").remove();
-//
-//                $.each(data, function (index, lexeme) {
-//
-//                    $("#lexemes").append($('<tr/>')
-//                                    .append($('<td/>'))
-//                                    .append(lexeme)
-//                    );
-//
-//                });
-//            },
-//            error:function(data,status,er) {
-//                alert("error: "+data+" status: "+status+" er:"+er);
-//            }
-        });
-    }
-</script>
+<script src="js/sendAuthAjaxPostMethod.js"></script>
 
 </body>
 </html>
