@@ -3,11 +3,11 @@ $(document).ready(function() {
     $("#loginSubmitBtn").click(function(e) {
         //$("input#loginStr").val();
         var userEmail = $('#loginStr').val();
-        var json = { "userEmail" : userEmail};
+        //var json = { "userEmail" : userEmail};
 
         $.ajax({
             url: "login",
-            data: JSON.stringify(json),
+            data: JSON.stringify(userEmail),
             type: "POST",
 
             beforeSend: function(xhr) {
