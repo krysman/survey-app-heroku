@@ -1,3 +1,33 @@
+$(document).ready(function() {
+
+    $("#loginSubmitBtn").click(function(e) {
+        //$("input#loginStr").val();
+        var userEmail = $('#loginStr').val();
+        var json = { "userEmail" : userEmail};
+
+        $.ajax({
+            url: "login",
+            data: JSON.stringify(json),
+            type: "POST",
+
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Accept", "application/json");
+                xhr.setRequestHeader("Content-Type", "application/json");
+            },
+
+            success: function(data) {
+                alert(data);
+            },
+            error:function(data,status,er) {
+                alert("error: " + data + " status: " + status + " er:" + er);
+            }
+        });
+
+          //e.preventDefault();
+    });
+
+});
+
 /*$( "loginSubmitBtn" ).click(function() {
     sendAjax();
 });
@@ -25,7 +55,7 @@ function sendAjax() {
         });
 }*/
 
-$("#loginSubmitBtn").click(function(e){
+/*$("#loginSubmitBtn").click(function(e){
 
     //get the form data and then serialize that
     //dataString = $("#myAjaxRequestForm").serialize();
@@ -77,4 +107,4 @@ $("#loginSubmitBtn").click(function(e){
         }
 
     });
-});
+});*/
