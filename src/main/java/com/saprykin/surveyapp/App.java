@@ -125,10 +125,12 @@ public class App {
             @Override
             public Object handle(Request req, Response res) {
 
-                logger.info("Called hhtp GET method   /login");
+                logger.info("Called hhtp POST method   /login");
+
+                String userEmail = req.params("userEmail");
 
 
-                BufferedReader br = null;
+                /*BufferedReader br = null;
                 String userInputString = "";
                 try {
                     br = new BufferedReader(new InputStreamReader(req.raw().getInputStream()));
@@ -140,16 +142,16 @@ public class App {
                     // 3. Convert received JSON to String
                     userInputString = mapper.readValue(json, String.class);
                 } catch(IOException e) {
-                    logger.error("Some shit happend while trying to get user input from JSON file!!!!!", e);
-                }
+                    logger.error("Some shit happend while trying to get user input from JSON file!!!!!" + e.toString());
+                }*/
 
                 Session session = req.session();
                 logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! session.isNew = " + session.isNew());
                 session.attribute("userAuthentication", true);
                 session.attribute("userRole", "user");
-                session.attribute("userEmail", userInputString);
+                session.attribute("userEmail", userEmail);
 
-                return null;
+                return "";
             }
         });
 

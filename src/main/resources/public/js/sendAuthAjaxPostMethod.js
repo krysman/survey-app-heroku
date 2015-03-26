@@ -32,14 +32,14 @@ $("#loginSubmitBtn").click(function(e){
 
     //get the form data using another method
     var userEmail = $("input#loginStr").val();
-    //var dataString = "countryCode=" + countryCode;
+    var dataString = "userEmail=" + userEmail;
 
     //make the AJAX request, dataType is set to json
     //meaning we are expecting JSON data in response from the server
     $.ajax({
         type: "POST",
         url: "login",
-        data: userEmail,
+        data: dataString,
         dataType: "json",
         contentType: 'application/json',
         mimeType: 'application/json',
