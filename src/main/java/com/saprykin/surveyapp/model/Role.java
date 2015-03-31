@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Role {
 
     private int id;
-    private String role;
+    private String name;
 
     public Role() {
     }
@@ -33,12 +33,12 @@ public class Role {
         this.id = id;
     }
 
-    @Column(name = "role", unique = true, nullable = false, length = 15)
-    public String getRole() {
-        return role;
+    @Column(name = "name", unique = true, nullable = false, length = 15)
+    public String getName() {
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setName(String name) {
+        this.name = name;
     }
 }

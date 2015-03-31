@@ -10,6 +10,7 @@ import com.saprykin.surveyapp.service.RoleService;
 import com.saprykin.surveyapp.service.UserService;
 
 import com.saprykin.surveyapp.util.JsonTransformer;
+import com.saprykin.surveyapp.util.UserDetails;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,8 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
+
+import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.SparkBase.setPort;
@@ -35,7 +38,7 @@ public class App {
 
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
-    public static void main(String[] args) {
+    public static void main(java.lang.String[] args) {
 
         // Observe: this method must be called before all other methods.
         staticFileLocation("/public"); // Static files
@@ -56,9 +59,9 @@ public class App {
         poolService.savePool(pool1);
 
         Role userRole = new Role();
-        userRole.setRole("user");
+        userRole.setName("user");
         Role adminRole = new Role();
-        adminRole.setRole("admin");
+        adminRole.setName("admin");
 
         roleService.saveRole(userRole);
         roleService.saveRole(adminRole);
@@ -77,15 +80,35 @@ public class App {
         user2.setEmailNotifications(true);
         user2.setRole(adminRole);
 
-
         userService.saveUser(user1);
         userService.saveUser(user2);
 
-        /*get("/", (request, response) -> {
-            logger.info("Called hhtp GET method, User-Agent is:" + request.headers("User-Agent"));
+        // ... check if we remember this user
+        before((request, response) -> {
 
-            return "<html><head><h1>Hello, world!</h1></head><body><h2> <a href=/users>Users</a> </h2></body></html>";
-        });*/
+            boolean userIsRemembered = false;
+            String userEmail = request.cookie("userEmail");
+            User user = null;
+            if(userEmail != null) {
+                user = userService.findUserByEmail(userEmail);
+                if(user != null) {
+                    logger.info("Fined user email in cookie");
+                    userIsRemembered = true;
+                }
+            }
+
+            if(userIsRemembered) {
+                if(request.session().attribute("user") != null) {
+                    UserDetails userDetails = new UserDetails(user.getId(), user.getRole().getName());
+                    request.session().attribute("user", userDetails);
+                    logger.info("Add user details in session");
+                } else {
+                    logger.info("User details is already in session");
+                }
+            } else {
+                logger.info("User is new");
+            }
+        });
 
         get("/users", "application/json", (request, response) -> {
             logger.info("Called hhtp GET method    /users");
@@ -113,9 +136,8 @@ public class App {
         get("/info", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
-                Session session = request.session();
 
-                return session.attributes();
+                return request.session().attribute("user");
             }
         }, new JsonTransformer());
 
@@ -125,14 +147,11 @@ public class App {
 
             logger.info("Called hhtp POST method   /login");
 
-           // String userEmail = req.params("userEmail");
-
-
             BufferedReader br = null;
             String userInputString = "";
             try {
                 br = new BufferedReader(new InputStreamReader(req.raw().getInputStream()));
-                String json = br.readLine();
+                java.lang.String json = br.readLine();
 
                 // 2. initiate jackson mapper
                 ObjectMapper mapper = new ObjectMapper();
@@ -141,18 +160,34 @@ public class App {
                 userInputString = mapper.readValue(json, String.class);
             } catch(IOException e) {
 
-                String exceptionString = "Some shit happend while trying to get user input from JSON file!!!!!" + e.toString();
+                String exceptionString = "Some shit happened while trying to get user input from JSON file!!!!!" + e.toString();
                 logger.error(exceptionString);
                 return exceptionString;
             }
 
-            Session session = req.session();
-            logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! session.isNew = " + session.isNew());
-            session.attribute("userAuthentication", true);
-            session.attribute("userRole", "user");
-            session.attribute("userEmail", userInputString);
+            // validate userInputString
+            String validatedUserEmail = "";
+            validatedUserEmail = userInputString;
+            // check if user with inputted e-mail exist in DB
+            boolean userExist = false;
+            User user = null;
+            if(validatedUserEmail != null) {
+                user = userService.findUserByEmail(validatedUserEmail);
+                if(user != null) {
+                    logger.info("Fined user with login email in DB");
+                    userExist = true;
+                }
+            }
 
-            return userInputString;
+            if(userExist) {
+                UserDetails userDetails = new UserDetails(user.getId(), user.getRole().getName());
+                req.session().attribute("user", userDetails);
+                logger.info("Add user details after logging in session");
+                return userDetails;
+            } else {
+                return "User with e-mail:" + userInputString + " doesn't exist!\n";
+            }
+
         }, new JsonTransformer());
 
         /*post("/login", (request, response) -> {
@@ -195,7 +230,7 @@ public class App {
     }
 
     private static void setUpLog4jProperties() {
-        String log4jConfPath = "web/WEB-INF/classes/log4j.properties";
+        java.lang.String log4jConfPath = "web/WEB-INF/classes/log4j.properties";
         PropertyConfigurator.configure(log4jConfPath);
     }
 }

@@ -8,10 +8,11 @@ import javax.persistence.*;
 public class User {
 
     private int id;
-    private String email;
+    private java.lang.String email;
+    // TODO: password, salt
     private boolean emailConfirmation;
     private boolean emailNotifications; // should we send to user some useful information
-    private String confirmationToken; // token that we send to user's e-mail so he or she could use it to confirm e-mail
+    private java.lang.String confirmationToken; // token that we send to user's e-mail so he or she could use it to confirm e-mail
     private Role role;
 
     public User() {
@@ -30,11 +31,11 @@ public class User {
     }
 
     @Column(name = "email", unique = true, nullable = false)
-    public String getEmail() {
+    public java.lang.String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(java.lang.String email) {
         this.email = email;
     }
 
@@ -57,11 +58,11 @@ public class User {
     }
 
     @Column(name = "confirmationToken", unique = true, nullable = true)
-    public String getConfirmationToken() {
+    public java.lang.String getConfirmationToken() {
         return confirmationToken;
     }
 
-    public void setConfirmationToken(String confirmationToken) {
+    public void setConfirmationToken(java.lang.String confirmationToken) {
         this.confirmationToken = confirmationToken;
     }
 

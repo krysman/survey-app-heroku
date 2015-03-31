@@ -38,6 +38,13 @@ public class UserDaoImpl extends AbstractDao implements UserDao {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        Criteria criteria = getSession().createCriteria(User.class);
+        criteria.add(Restrictions.eq("email", email));
+        return (User) criteria.uniqueResult();
+    }
+
+    @Override
     public void updateUser(User user) {
         getSession().update(user);
     }

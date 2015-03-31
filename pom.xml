@@ -142,6 +142,14 @@
         </dependency>
         <!-- for JSON parsing        end  -->
 
+        <!-- For MD5 cryptographic hash function -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+
+
     </dependencies>
     
 </project>
