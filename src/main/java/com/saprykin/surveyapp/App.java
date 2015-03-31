@@ -100,7 +100,7 @@ public class App {
 
             if(userIsRemembered) {
                 logger.info("User details if any: " + request.session().attribute("user"));
-                if(request.session().attribute("user") != null) { // TODO
+                if(null == request.session().attribute("user")) { // TODO
                     UserDetails userDetails = new UserDetails(user.getId(), user.getRole().getName());
                     request.session().attribute("user", userDetails);
                     logger.info("Add user details in session");
