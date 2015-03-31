@@ -87,7 +87,7 @@ public class App {
         before((request, response) -> {
 
             boolean userIsRemembered = false;
-            String userEmail = request.cookie("userEmail");
+            String userEmail = request.cookie("userEmailSurveyApp");
             User user = null;
             if(userEmail != null) {
                 user = userService.findUserByEmail(userEmail);
@@ -168,6 +168,7 @@ public class App {
             // validate userInputString
             String validatedUserEmail = "";
             validatedUserEmail = userInputString;
+
             // check if user with inputted e-mail exist in DB
             boolean userExist = false;
             User user = null;
@@ -179,6 +180,10 @@ public class App {
                 }
             }
 
+            // add cookie
+            res.cookie("userEmailSurveyApp", validatedUserEmail, 60*60*24*30, true);
+
+            // set session attribute
             if(userExist) {
                 UserDetails userDetails = new UserDetails(user.getId(), user.getRole().getName());
                 req.session().attribute("user", userDetails);
