@@ -86,6 +86,7 @@ public class App {
         // ... check if we remember this user
         before((request, response) -> {
 
+            logger.info("Before filter /   starts...");
             boolean userIsRemembered = false;
             String userEmail = request.cookie("userEmailSurveyApp");
             User user = null;
@@ -98,7 +99,7 @@ public class App {
             }
 
             if(userIsRemembered) {
-                logger.debug("User details if any: " + request.session().attribute("user"));
+                logger.info("User details if any: " + request.session().attribute("user"));
                 if(request.session().attribute("user") != null) { // TODO
                     UserDetails userDetails = new UserDetails(user.getId(), user.getRole().getName());
                     request.session().attribute("user", userDetails);
@@ -109,6 +110,7 @@ public class App {
             } else {
                 logger.info("User is new");
             }
+            logger.info("Before filter /   ends...");
         });
 
         get("/users", "application/json", (request, response) -> {
